@@ -542,16 +542,32 @@
       spawnEmojiBurst(["💔", "🥀", "💔", "😿"], 36);
     }
 
-    // Increase YES option size every time NO is clicked (clamped cleanly for iPhone)
-    const isNarrow = window.innerWidth <= 480;
-    const newFontRem = Math.min(1.25 + noCount * (isNarrow ? 0.28 : 0.42), isNarrow ? 2.4 : 4.1);
-    const newPadY = Math.min(14 + noCount * (isNarrow ? 4 : 6), isNarrow ? 26 : 36);
-    const newPadX = Math.min(36 + noCount * (isNarrow ? 8 : 14), isNarrow ? 54 : 92);
-    yesBtn.style.fontSize = `${newFontRem}rem`;
-    yesBtn.style.padding = `${newPadY}px ${newPadX}px`;
+    // Progressive YES expansion until it covers the entire screen after multiple NO presses
+    yesBtn.classList.remove("yes-takeover-1", "yes-takeover-2", "yes-fullscreen");
+    if (noCount <= 2) {
+      const isNarrow = window.innerWidth <= 480;
+      const newFontRem = 1.25 + noCount * (isNarrow ? 0.38 : 0.52);
+      const newPadY = 14 + noCount * (isNarrow ? 6 : 8);
+      const newPadX = 36 + noCount * (isNarrow ? 12 : 18);
+      yesBtn.style.fontSize = `${newFontRem}rem`;
+      yesBtn.style.padding = `${newPadY}px ${newPadX}px`;
+    } else if (noCount === 3) {
+      yesBtn.classList.add("yes-takeover-1");
+    } else if (noCount === 4) {
+      yesBtn.classList.add("yes-takeover-2");
+    } else {
+      yesBtn.classList.add("yes-fullscreen");
+    }
   });
 
+  function resetYesButton() {
+    yesBtn.classList.remove("yes-takeover-1", "yes-takeover-2", "yes-fullscreen");
+    yesBtn.style.fontSize = "";
+    yesBtn.style.padding = "";
+  }
+
   yesBtn.addEventListener("click", () => {
+    resetYesButton();
     askScene.classList.add("hidden");
     yesScene.classList.remove("hidden");
     yesScene.setAttribute("aria-hidden", "false");
@@ -598,8 +614,7 @@
   replayBtn.addEventListener("click", () => {
     noCount = 0;
     noReaction.classList.add("hidden");
-    yesBtn.style.fontSize = "";
-    yesBtn.style.padding = "";
+    resetYesButton();
     askSubheading.textContent = "Pretty please with extra pink sparkles? 🥺💗";
     startOpeningSequence();
   });
