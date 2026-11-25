@@ -1,0 +1,15 @@
+{
+  "name": "anandi-babai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Pink pixel mascot & golden pass website for Anandi Babai",
+  "scripts": {
+    "dev": "vercel dev",
+    "start": "serve .",
+    "deploy": "vercel --prod"
+  },
+  "devDependencies": {
+    "serve": "^14.2.4",
+    "vercel": "^41.0.0"
+  }
+}

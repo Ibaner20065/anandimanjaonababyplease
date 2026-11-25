@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#ffd6e8" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <title>For Anandi Babai 💖</title>
+  <link rel="preload" as="image" href="assets/kiss-clean.webp" />
+  <link rel="preload" as="image" href="assets/no.jpg" />
+  <link rel="preload" as="image" href="assets/dance.gif" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;900&family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Pink Pixel Grid & Aura Backdrop -->
+  <div class="pink-grid-bg" aria-hidden="true"></div>
+  <div class="pink-grid-dots" aria-hidden="true"></div>
+  <div class="pink-vignette" aria-hidden="true"></div>
+
+  <!-- Full-screen Canvas for Confetti & Flying Hearts/Broken Hearts -->
+  <canvas id="fx-canvas" aria-hidden="true"></canvas>
+  <div id="emoji-particles" aria-hidden="true"></div>
+
+  <!-- ======================================================================
+       STAGE 1: OPENING SCENE (Pixel Mascot Peeping from Small Box -> Welcome)
+       ====================================================================== -->
+  <main id="opening-scene" class="scene scene-active">
+    <div class="opening-stage">
+      <!-- Speech Bubble (appears after 2 seconds) -->
+      <div id="mascot-speech" class="speech-bubble hidden" role="status" aria-live="polite">
+        <span class="speech-tag">[ BABAI_PROTOCOL // SYNC ]</span>
+        <p class="speech-text">WELCOME ANANDIIII MY BABAI</p>
+        <span class="speech-hearts">💖 ✨ 🌸</span>
+      </div>
+
+      <!-- Small Pixel Box with Peeping Mascot -->
+      <div id="peep-box-wrapper" class="peep-box-wrapper state-closed">
+        <!-- Aurora Glow behind mascot -->
+        <div class="aurora-sphere" id="aurora-outer"></div>
+        <div class="aurora-sphere-inner" id="aurora-inner"></div>
+
+        <!-- Floating Pink Pixel Elements -->
+        <div class="floating-shape float-anim-1 pixel-heart-badge" aria-hidden="true">♥</div>
+        <div class="floating-shape float-anim-2 pixel-diamond" aria-hidden="true"></div>
+        <div class="floating-shape float-anim-1 pixel-tag" aria-hidden="true">[BABAI_01]</div>
+
+        <!-- Mascot Viewport (Clips mascot inside box; peeks every 2s & springs out on open) -->
+        <div class="mascot-window" id="mascot-window">
+          <div id="main-character" role="button" tabindex="0" aria-label="Interactive Pixel Cat Mascot">
+            <div class="cat-head" id="head-base">
+              <div class="ear ear-left"><div class="ear-inner"></div></div>
+              <div class="ear ear-right"><div class="ear-inner"></div></div>
+
+              <div class="face-container">
+                <div class="face-element pixel-brow left-brow" id="left-brow"></div>
+                <div class="face-element pixel-brow right-brow" id="right-brow"></div>
+
+                <div class="face-element left-eye-track" id="left-eye-track">
+                  <div class="pixel-eye"></div>
+                </div>
+                <div class="face-element right-eye-track" id="right-eye-track">
+                  <div class="pixel-eye"></div>
+                </div>
+
+                <div class="face-element pixel-nose" id="nose"></div>
+                <div class="face-element pixel-mouth" id="mouth"></div>
+
+                <div class="face-element pixel-cheek cheek-left"></div>
+                <div class="face-element pixel-cheek cheek-right"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Liftable Box Lid -->
+        <div id="box-lid" class="box-lid" role="button" tabindex="0" aria-label="Lift the box lid up">
+          <div class="lid-bow" aria-hidden="true">🎀</div>
+          <div class="lid-grip">▲ LIFT UP ▲</div>
+        </div>
+
+        <!-- The Small Box Base -->
+        <div class="small-pixel-box" id="small-pixel-box">
+          <div class="box-label" id="box-label">
+            <span class="pulse-dot"></span>
+            <span>SOMEONE IS INSIDE...</span>
+          </div>
+          <p class="lift-hint" id="lift-hint">🖱️ USE MOUSE TO LIFT THE LID UP</p>
+          <button id="motion-btn" class="motion-btn hidden" type="button">
+            📱 ENABLE SHAKE &amp; TILT TO MOVE MASCOT
+          </button>
+          <button id="enter-btn" class="enter-btn hidden" type="button">
+            OPEN SURPRISE 💖
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ======================================================================
+       STAGE 2: PLEASE TALK TO ME BABY + KISS + YES / NO
+       ====================================================================== -->
+  <section id="ask-scene" class="scene hidden" aria-hidden="true">
+    <div class="ask-card">
+      <!-- Mini Pixel Companion Peeking at Top -->
+      <div class="mini-mascot-pill">
+        <span class="mini-cat-icon" aria-hidden="true">🐱</span>
+        <span>FOR ANANDI SINHA</span>
+      </div>
+
+      <h1 class="ask-heading">PLEASE TALK TO ME BABY</h1>
+      <p class="ask-subheading" id="ask-subheading">
+        Pretty please with extra pink sparkles? 🥺💗
+      </p>
+
+      <!-- Kiss Animation (Background Removed) + Sad Reaction -->
+      <div class="media-stage">
+        <div id="kiss-wrap" class="kiss-wrap">
+          <div class="kiss-aura"></div>
+          <img
+            src="assets/kiss-clean.webp"
+            alt="Cute animated couple kiss"
+            class="kiss-gif"
+          />
+        </div>
+
+        <!-- Sad Bear Reaction (appears every time NO is clicked) -->
+        <div id="no-reaction" class="no-reaction hidden">
+          <div class="no-meme-frame">
+            <img
+              src="assets/no.jpg"
+              alt="Sad crying bear thinking of you"
+              class="no-meme-img"
+            />
+          </div>
+          <p class="no-caption" id="no-caption">Wait... please don't say no 🥺💖</p>
+        </div>
+      </div>
+
+      <!-- YES / NO Buttons -->
+      <div class="choice-row" id="choice-row">
+        <button id="yes-btn" class="btn btn-yes" type="button">
+          YES 💖
+        </button>
+        <button id="no-btn" class="btn btn-no" type="button">
+          NO 😿
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       STAGE 3: CELEBRATION + GOLDEN PASS + CORNER DANCING GIF
+       ====================================================================== -->
+  <section id="yes-scene" class="scene hidden" aria-hidden="true">
+    <div class="celebration-container">
+      <div class="celebration-badge">🎉 SHE SAID YESSS!! 🎉</div>
+
+      <!-- 3D Interactive Holographic Golden Pass -->
+      <div class="golden-pass-perspective">
+        <article id="golden-pass" class="golden-pass" aria-label="Golden Pass for Anandi Sinha">
+          <div class="pass-shimmer"></div>
+          <div class="pass-border-outer">
+            <div class="pass-border-inner">
+              <!-- Corner Ornate SVG Filigree -->
+              <svg class="filigree filigree-tl" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+                <path d="M4 60V12C4 7.58 7.58 4 12 4H60" stroke="#7a4e00" stroke-width="2.5"/>
+                <path d="M12 52V16C12 13.79 13.79 12 16 12H52" stroke="#9e6b08" stroke-width="1.5"/>
+                <circle cx="12" cy="12" r="3.5" fill="#7a4e00"/>
+              </svg>
+              <svg class="filigree filigree-tr" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+                <path d="M4 60V12C4 7.58 7.58 4 12 4H60" stroke="#7a4e00" stroke-width="2.5"/>
+                <path d="M12 52V16C12 13.79 13.79 12 16 12H52" stroke="#9e6b08" stroke-width="1.5"/>
+                <circle cx="12" cy="12" r="3.5" fill="#7a4e00"/>
+              </svg>
+              <svg class="filigree filigree-bl" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+                <path d="M4 60V12C4 7.58 7.58 4 12 4H60" stroke="#7a4e00" stroke-width="2.5"/>
+                <path d="M12 52V16C12 13.79 13.79 12 16 12H52" stroke="#9e6b08" stroke-width="1.5"/>
+                <circle cx="12" cy="12" r="3.5" fill="#7a4e00"/>
+              </svg>
+              <svg class="filigree filigree-br" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+                <path d="M4 60V12C4 7.58 7.58 4 12 4H60" stroke="#7a4e00" stroke-width="2.5"/>
+                <path d="M12 52V16C12 13.79 13.79 12 16 12H52" stroke="#9e6b08" stroke-width="1.5"/>
+                <circle cx="12" cy="12" r="3.5" fill="#7a4e00"/>
+              </svg>
+
+              <div class="pass-top-meta">
+                <span class="pass-chip">★ OFFICIAL 24*7 VIP PASS ★</span>
+                <span class="pass-serial">NO. 0001 // BABAI EDITION</span>
+              </div>
+
+              <h2 class="pass-title">GOLDEN PASS</h2>
+              <div class="pass-divider">
+                <span></span><span class="divider-heart">♥</span><span></span>
+              </div>
+
+              <p class="pass-issued-to">PROUDLY PRESENTED TO</p>
+              <h3 class="pass-recipient">ANANDI SINHA</h3>
+
+              <div class="pass-message-box">
+                <p class="pass-promise">
+                  <strong>INDRAYUDH BANDYOPADHYAY</strong> IS AT YOUR SERVICE <strong>24*7</strong>
+                </p>
+                <p class="pass-thankyou">
+                  THANK YOU FOR SAYING YOU WILL TALK TO HIM 💖
+                </p>
+              </div>
+
+              <div class="pass-footer">
+                <div class="pass-sig">
+                  <span class="sig-script">Indrayudh Bandyopadhyay</span>
+                  <span class="sig-label">AT YOUR SERVICE ALWAYS</span>
+                </div>
+                <div class="wax-seal" aria-hidden="true">
+                  <span>24*7</span>
+                  <small>♥ VIP ♥</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="pass-actions">
+        <button id="download-pass-btn" class="btn btn-gold" type="button">
+          ⬇ SAVE GOLDEN PASS (PNG)
+        </button>
+        <button id="more-confetti-btn" class="btn btn-pink-outline" type="button">
+          ✨ MORE CONFETTI
+        </button>
+        <button id="replay-btn" class="btn btn-pink-outline" type="button">
+          ↺ REPLAY
+        </button>
+      </div>
+    </div>
+
+    <!-- Corner Dancing GIF -->
+    <div id="corner-dancer" class="corner-dancer" aria-label="Celebration dancing animation">
+      <div class="dancer-bubble">YAYYY BABAI!! 💃💖</div>
+      <img src="assets/dance.gif" alt="Happy dancing celebration" class="dance-gif" />
+    </div>
+  </section>
+
+  <script src="app.js"></script>
+</body>
+</html>
